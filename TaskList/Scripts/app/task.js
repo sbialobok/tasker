@@ -1,8 +1,5 @@
-﻿var signalr = require('./modules/signalconnection');
-
+﻿var routes = require('./modules/routes');
 module.exports = function () {
-	//make contact
-	signalr('blah', function(data) {
-		console.log(data);
-	});
+	routes();
+	
 }();

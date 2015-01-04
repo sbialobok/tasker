@@ -18,7 +18,7 @@ module.exports = {
     resolve: {
         // Tell webpack to look for required files in bower and node
         modulesDirectories: ['node_modules'],
-        root: ['modules']
+        root: ['modules', 'ui']
     },
     module: {
          loaders: [
@@ -35,8 +35,6 @@ module.exports = {
         noParse: /\.min\.js/
     },
     externals: {
-        "jquery": "jQuery",
-        "react": "React",
-        "addons": "React"
+        "jquery": "jQuery"
     }
 };

@@ -10,7 +10,5 @@ namespace TaskList.Controllers
         {
             return Connection.Broadcast(connectionId + " has connected!!");
         }
-
-        private 
     }
 }
