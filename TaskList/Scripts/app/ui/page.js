@@ -1,11 +1,12 @@
 /** @jsx React.DOM */
 
+//Handles the rendering of the two basic pages for the app. Login and tasks
 var React = require('react'),
 	login = require('./login'),
 	mainui = require('./main');
 
 var page = function () {
-	var mountNode = 'app';
+	var mountNode = 'app'; //This is the id of the div tag that the index page renders
 	function renderLogin(onLogin) {
 		React.renderComponent(
 			<login onLogin={onLogin} />,
@@ -13,9 +14,9 @@ var page = function () {
 		);
 	};
 
-	function renderTasks() {
+	function renderTasks(teamname, username, tasks) {
 		React.renderComponent(
-			<mainui />,
+			<mainui teamname={teamname} username={username} tasks={tasks}/>,
 			document.getElementById(mountNode)
 		);
 	};

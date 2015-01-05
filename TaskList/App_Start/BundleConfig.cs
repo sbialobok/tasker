@@ -8,6 +8,10 @@ namespace TaskList
 {
     public class BundleConfig
     {
+        /// <summary>
+        /// Bundles javascript files to be served to the client
+        /// </summary>
+        /// <param name="bundles"></param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-{version}.js", "~/Scripts/jquery.signalR-{version}.js"));

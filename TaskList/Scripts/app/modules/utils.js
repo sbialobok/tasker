@@ -16,11 +16,6 @@ module.exports = {
 	    return returnvalue;
 	},
 	set_cookie: function(cookie_name, cookie_value, cookie_life, cookie_path) {
-	    var category = '' + getParameterByName('category');
-	    if (category.length > 0) {
-	        var qpath = cookie_value.split("?");
-	        cookie_value = qpath[0] + '?category=' + category;
-	    }
 	    var today = new Date();
 	    var expiry = new Date(today.getTime() + cookie_life * 24 * 60 * 60 * 1000);
 	    if (cookie_value != null && cookie_value != "") {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TaskList.Manager
+namespace TaskList.BizModels
 {
     public class TaskItem
     {
@@ -15,7 +15,12 @@ namespace TaskList.Manager
         /// <summary>
         /// ID of the user who created the task
         /// </summary>
-        public uint OwnerId { get; set; }
+        public User Owner { get; set; }
+
+        /// <summary>
+        /// The name of the team the task belongs to
+        /// </summary>
+        public string TeamName { get; set; }
 
         /// <summary>
         /// List of users who share the task
@@ -26,5 +31,10 @@ namespace TaskList.Manager
         /// The description of the task
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Duedate of the task
+        /// </summary>
+        public DateTime DueDate { get; set; }
     }
 }

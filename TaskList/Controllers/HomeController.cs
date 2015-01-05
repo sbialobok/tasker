@@ -8,6 +8,9 @@ using TaskList.Manager;
 
 namespace TaskList.Controllers
 {
+    /// <summary>
+    /// Right now handles logging in and returns our base html that we mount the react ui to.  Thats about it. 
+    /// </summary>
     public class HomeController : Controller
     {
         IAccountManager _manager;

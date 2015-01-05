@@ -84,6 +84,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -234,15 +235,26 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\css\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TaskList.BizModels\TaskList.BizModels.csproj">
+      <Project>{f658d2b0-a608-44c1-b90e-c365c2428dd7}</Project>
+      <Name>TaskList.BizModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaskList.Manager\TaskList.Manager.csproj">
       <Project>{6304a87e-4032-4424-9a31-de48b479aa31}</Project>
       <Name>TaskList.Manager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskList.Mapping\TaskList.Mapping.csproj">
+      <Project>{7573e7e4-ab48-4ecd-a144-2178978a64f7}</Project>
+      <Name>TaskList.Mapping</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskList.Models\TaskList.Models.csproj">
+      <Project>{fcc7077c-a8d5-48e6-a50b-bb7b862fb6aa}</Project>
+      <Name>TaskList.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

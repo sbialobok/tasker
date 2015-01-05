@@ -9,6 +9,7 @@ namespace TaskList
     {
         public static void Register(HttpConfiguration config)
         {
+            //TODO: DO I need this?
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+//Handles rendering of the login page
 var React = require('react'),
 	accountService = require('../services/accountservice');
 
@@ -13,6 +14,7 @@ var login = React.createClass({
 		};
 	},
 	validateName: function (name) {
+		//TODO: replace with actual regex match to confirm it meets specs
 		return true;
 	},
 	validateTeamName: function (event) {
@@ -31,7 +33,7 @@ var login = React.createClass({
 		var promise = accountService.LoginUser(this.state.teamName, this.state.userName);
 		promise.done(function() {
 			if(this.props.onLogin) {
-				this.props.onLogin();
+				this.props.onLogin(this.state.teamName, this.state.userName);
 			}
 		}.bind(this));
 	},

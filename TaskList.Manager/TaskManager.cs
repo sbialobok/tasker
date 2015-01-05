@@ -2,34 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
+using TaskList.BizModels;
 
 namespace TaskList.Manager
 {
     /// <summary>
     /// Singleton class that holds the in memory cache of the tasks and has hooks to listen for updates.
+    /// TODO: replace with actual db
     /// </summary>
     public class TaskManager : ITaskManager
     {
         Dictionary<string, Dictionary<uint, TaskItem>> _tasks;
+        uint _runningTaskId;
 
         public TaskManager()
         {
             _tasks = new Dictionary<string, Dictionary<uint, TaskItem>>();
+            _runningTaskId = 1;
         }
 
-        public void AddTask(TaskItem task, string team)
+        public void AddTask(TaskItem task)
         {
             Dictionary<uint, TaskItem> teamtasks;
-            if (!_tasks.TryGetValue(team, out teamtasks))
+            if (!_tasks.TryGetValue(task.TeamName, out teamtasks))
             {
                 teamtasks = new Dictionary<uint, TaskItem>();
-                _tasks[team] = teamtasks;
+                _tasks[task.TeamName] = teamtasks;
             }
 
+            task.Id = _runningTaskId++;
             teamtasks[task.Id] = task;
-
-            //Where do we propagate to db?
         }
 
         public void UpdateTask(TaskItem task, string team)
@@ -52,7 +55,8 @@ namespace TaskList.Manager
             Dictionary<uint, TaskItem> teamTasks;
             if (!_tasks.TryGetValue(teamName, out teamTasks))
             {
-                throw new ArgumentException("Team " + teamName + " does not exist");
+                teamTasks = new Dictionary<uint, TaskItem>();
+                _tasks[teamName] = teamTasks;
             }
             return teamTasks.Values.ToList();
         }

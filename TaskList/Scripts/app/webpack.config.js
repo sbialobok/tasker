@@ -18,22 +18,18 @@ module.exports = {
     resolve: {
         // Tell webpack to look for required files in bower and node
         modulesDirectories: ['node_modules'],
+        //TODO Need to fix this, is look in all directories right now
         root: ['modules', 'ui']
     },
     module: {
          loaders: [
-        //   { test: /\.css/, exclude: /\.usable\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
-        //   { test: /\.useable\.css$/, loader: "style/useable!style-loader!css-loader" },
-        //   { test: /\.gif/, loader: "url-loader?limit=10000&minetype=image/gif" },
-        //   { test: /\.jpg/, loader: "url-loader?limit=10000&minetype=image/jpg" },
-        //   { test: /\.png/, loader: "url-loader?limit=10000&minetype=image/png" },
-          { test: /\.js$/, loader: "jsx-loader" }
-        //   { test: /\.coffee$/, loader: "jsx-loader!coffee-loader" },
-        //   { test: /\.less$/, exclude: /\.useable\.less$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader") },
-        //   { test: /\.useable\.less$/, loader: "style/useable!style-loader!css-loader!less-loader" }
+            { test: /\.css/, exclude: /\.usable\.css$/, loader: "style-loader!css-loader" },
+            { test: /\.js$/, loader: "jsx-loader" }   
+            { test: /\.less$/, exclude: /\.useable\.less$/, loader: "style-loader!css-loader!less-loader" }
         ],
         noParse: /\.min\.js/
     },
+    //Expose jQuery since it isn't part of node modules
     externals: {
         "jquery": "jQuery"
     }

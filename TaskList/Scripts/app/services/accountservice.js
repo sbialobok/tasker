@@ -1,3 +1,4 @@
+//Interfaces with tasklist server for account related actions
 var $ = require('jquery')
 module.exports = {
 	LoginUser: function (teamname, username) {
