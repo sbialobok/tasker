@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using TaskList.BizModels;
 
-namespace TaskList.Manager
+namespace TaskList.ServiceContracts
 {
-    public interface ITaskManager
+    public interface ITaskService
     {
         void AddTask(TaskItem task);
-        void DeleteTask(uint id, string team);
+        void DeleteTask(int id, string team);
         void UpdateTask(TaskItem task, string team);
         List<TaskItem> GetTeamTasks(string teamName);
     }

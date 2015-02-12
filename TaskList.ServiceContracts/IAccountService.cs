@@ -5,9 +5,9 @@ using System.Text;
 
 using TaskList.BizModels;
 
-namespace TaskList.Manager
+namespace TaskList.ServiceContracts
 {
-    public interface IAccountManager
+    public interface IAccountService
     {
         /// <summary>
         /// Persists a user and team if they dont already exist

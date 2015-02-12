@@ -219,7 +219,9 @@
     <Content Include="Scripts\jquery-ui-1.11.2.min.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -244,9 +246,9 @@
       <Project>{f658d2b0-a608-44c1-b90e-c365c2428dd7}</Project>
       <Name>TaskList.BizModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaskList.Manager\TaskList.Manager.csproj">
-      <Project>{6304a87e-4032-4424-9a31-de48b479aa31}</Project>
-      <Name>TaskList.Manager</Name>
+    <ProjectReference Include="..\TaskList.Data\TaskList.EFData.csproj">
+      <Project>{8cd7e3cd-0a78-4c88-ab07-50045a1269cc}</Project>
+      <Name>TaskList.EFData</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaskList.Mapping\TaskList.Mapping.csproj">
       <Project>{7573e7e4-ab48-4ecd-a144-2178978a64f7}</Project>
@@ -255,6 +257,10 @@
     <ProjectReference Include="..\TaskList.Models\TaskList.Models.csproj">
       <Project>{fcc7077c-a8d5-48e6-a50b-bb7b862fb6aa}</Project>
       <Name>TaskList.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskList.ServiceContracts\TaskList.ServiceContracts.csproj">
+      <Project>{6614500e-1a17-4e6d-b6a2-4653c311b433}</Project>
+      <Name>TaskList.ServiceContracts</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

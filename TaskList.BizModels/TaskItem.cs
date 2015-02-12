@@ -10,7 +10,7 @@ namespace TaskList.BizModels
         /// <summary>
         /// ID of the task
         /// </summary>
-        public uint Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// ID of the user who created the task
@@ -25,7 +25,7 @@ namespace TaskList.BizModels
         /// <summary>
         /// List of users who share the task
         /// </summary>
-        public List<uint> Users { get; set; }
+        public List<int> Users { get; set; }
 
         /// <summary>
         /// The description of the task

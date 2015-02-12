@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using TaskList.Manager;
+using TaskList.ServiceContracts;
 
 namespace TaskList.Controllers
 {
@@ -13,10 +13,10 @@ namespace TaskList.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        IAccountManager _manager;
-        public HomeController(IAccountManager manager)
+        IAccountService _accountService;
+        public HomeController(IAccountService service)
         {
-            _manager = manager;
+            _accountService = service;
         }
         //
         // GET: /Home/
@@ -27,7 +27,7 @@ namespace TaskList.Controllers
 
         public void Login(string team, string user)
         {
-            _manager.LoginUser(team, user);
+            _accountService.LoginUser(team, user);
         }
 
     }

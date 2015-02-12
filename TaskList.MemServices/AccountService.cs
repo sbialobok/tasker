@@ -4,20 +4,21 @@ using System.Linq;
 using System.Text;
 
 using TaskList.BizModels;
+using TaskList.ServiceContracts;
 
-namespace TaskList.Manager
+namespace TaskList.MemServices
 {
     /// <summary>
     /// Holds the users and teams until I get an actual DB setup
     /// </summary>
-    public class AccountManager : IAccountManager
+    public class AccountService : IAccountService
     {
         private Dictionary<string, Dictionary<string, User>> _users;
         private Dictionary<string, Team> _teams;
-        private uint _runningTeamID;
-        private uint _runningUserID;
+        private int _runningTeamID;
+        private int _runningUserID;
 
-        public AccountManager()
+        public AccountService()
         {
             _users = new Dictionary<string, Dictionary<string, User>>();
             _teams = new Dictionary<string, Team>();

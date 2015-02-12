@@ -12,7 +12,7 @@ namespace TaskList.Models
         /// ID of the task
         /// </summary>
         [DataMember]
-        public uint Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// ID of the user who created the task

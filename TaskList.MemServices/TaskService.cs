@@ -4,30 +4,31 @@ using System.Linq;
 using System.Text;
 
 using TaskList.BizModels;
+using TaskList.ServiceContracts;
 
-namespace TaskList.Manager
+namespace TaskList.MemServices
 {
     /// <summary>
     /// Singleton class that holds the in memory cache of the tasks and has hooks to listen for updates.
     /// TODO: replace with actual db
     /// </summary>
-    public class TaskManager : ITaskManager
+    public class TaskService : ITaskService
     {
-        Dictionary<string, Dictionary<uint, TaskItem>> _tasks;
-        uint _runningTaskId;
+        Dictionary<string, Dictionary<int, TaskItem>> _tasks;
+        int _runningTaskId;
 
-        public TaskManager()
+        public TaskService()
         {
-            _tasks = new Dictionary<string, Dictionary<uint, TaskItem>>();
+            _tasks = new Dictionary<string, Dictionary<int, TaskItem>>();
             _runningTaskId = 1;
         }
 
         public void AddTask(TaskItem task)
         {
-            Dictionary<uint, TaskItem> teamtasks;
+            Dictionary<int, TaskItem> teamtasks;
             if (!_tasks.TryGetValue(task.TeamName, out teamtasks))
             {
-                teamtasks = new Dictionary<uint, TaskItem>();
+                teamtasks = new Dictionary<int, TaskItem>();
                 _tasks[task.TeamName] = teamtasks;
             }
 
@@ -40,9 +41,9 @@ namespace TaskList.Manager
             //???
         }
 
-        public void DeleteTask(uint id, string team)
+        public void DeleteTask(int id, string team)
         {
-            Dictionary<uint, TaskItem> teamtasks;
+            Dictionary<int, TaskItem> teamtasks;
             if (!_tasks.TryGetValue(team, out teamtasks))
             {
                 throw new ArgumentException("Cannot delete task. Team " + team + " does not exist");
@@ -52,10 +53,10 @@ namespace TaskList.Manager
 
         public List<TaskItem> GetTeamTasks(string teamName)
         {
-            Dictionary<uint, TaskItem> teamTasks;
+            Dictionary<int, TaskItem> teamTasks;
             if (!_tasks.TryGetValue(teamName, out teamTasks))
             {
-                teamTasks = new Dictionary<uint, TaskItem>();
+                teamTasks = new Dictionary<int, TaskItem>();
                 _tasks[teamName] = teamTasks;
             }
             return teamTasks.Values.ToList();

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using TaskList.Manager;
 using TaskList.Models;
 using TaskList.BizModels;
 using TaskList.Mapping;
+using TaskList.ServiceContracts;
 
 namespace TaskList.Controllers
 {
@@ -16,25 +16,25 @@ namespace TaskList.Controllers
     /// </summary>
     public class TaskController : Controller
     {
-        ITaskManager _manager;
-        IAccountManager _accountManager;
-        public TaskController(ITaskManager manager, IAccountManager accountManager)
+        ITaskService _taskService;
+        IAccountService _accountService;
+        public TaskController(ITaskService tservice, IAccountService aservice)
         {
-            _manager = manager;
-            _accountManager = accountManager;
+            _taskService = tservice;
+            _accountService = aservice;
         }
         
         public JsonResult GetTasks(string teamName)
         {
-            var tasks = _manager.GetTeamTasks(teamName).Select(t => t.ToModel());
+            var tasks = _taskService.GetTeamTasks(teamName).Select(t => t.ToModel());
             return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
         public void AddTask(Task task)
         {
-            var team = _accountManager.GetTeam(task.TeamName);
-            var owner = _accountManager.GetUser(task.TeamName, task.Owner);
-            _manager.AddTask(task.ToBiz(team, owner));
+            var team = _accountService.GetTeam(task.TeamName);
+            var owner = _accountService.GetUser(task.TeamName, task.Owner);
+            _taskService.AddTask(task.ToBiz(team, owner));
         }
     }
 }
