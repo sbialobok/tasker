@@ -4,13 +4,16 @@
 var React = require('react');
 
 var task = React.createClass({
-	//if the task has passed all requirements for the text input
-	validTask: false,
 	//the values of the text input fields after being parsed
 	editedTask: {
 		description: [],
 		shares: [],
 		duedate: []
+	},
+	getInitialState: function () {
+		return {
+			validTask: false
+		};
 	},
 	getDefaultProps: function () {
 		return {
@@ -23,18 +26,30 @@ var task = React.createClass({
 		};
 	},
 	parseTask: function (event) {
-		var text = event.target.value;
+		var text = event.target.value,
+			date = undefined;
+			parseddate = undefined;
 
 		//This implies that the TODO needs to come first with the description.  I think thats what the spec stated.
 		this.editedTask.description = text.match(/TODO:[\s\S][^@^]*/g);
 		this.editedTask.shares = text.match(/@[\w]*/g);
 		this.editedTask.duedate = text.match(/\^[\d\/]*/g);
 
-		if(this.editedTask.description && this.editedTask.description.length) {
+		if(this.editedTask.duedate && this.editedTask.duedate.length) {
+			date = this.editedTask.duedate[0].replace('^','');
+			parseddate = Date.parse(date);
+		}
+		if(this.editedTask.description && this.editedTask.description.length && date && !isNaN(parseddate)) {
+
+			this.editedTask.duedate[0] = date;
 			//TODO: Check valid user and check valid date
-			this.validTask = true;
+			this.setState({
+				validTask: true
+			});
 		} else {
-			this.validTasl = false;
+			this.setState({
+				validTask: false
+			});
 		}
 	},
 	handleTaskClick: function (event) {
@@ -45,7 +60,7 @@ var task = React.createClass({
 	},
 	handleTaskSave: function (event) {
 		//Checks if the entered text passed all checks before saving the task
-		if(this.validTask) {
+		if(this.state.validTask) {
 			if(this.props.onTaskSave) {
 				this.props.onTaskSave(event, this);
 			}
@@ -58,7 +73,7 @@ var task = React.createClass({
 		//TODO: Add handler for keyboard enter press
 		return (
 			<div className='taskedit'>
-				<input type="text" className="taskentry" onChange={this.parseTask} value={this.props.description} />
+				<input type="text" className="taskentry" onChange={this.parseTask}/>
 				<button className="submit" onClick={this.handleTaskSave}>{this.props.mode === 'new' ? 'Add' : 'Save'}</button>
 			</div>
 		);

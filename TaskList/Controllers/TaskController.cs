@@ -32,9 +32,7 @@ namespace TaskList.Controllers
 
         public void AddTask(Task task)
         {
-            var team = _accountService.GetTeam(task.TeamName);
-            var owner = _accountService.GetUser(task.TeamName, task.Owner);
-            _taskService.AddTask(task.ToBiz(team, owner));
+            _taskService.AddTask(task.ToBiz());
         }
     }
 }

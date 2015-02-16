@@ -20,26 +20,29 @@ namespace TaskList.EFRepository
         }
 
         #region Team
-        public void AddTeam(BizModels.Team team)
+        public void AddTeam(string team)
         {
-            var efteam = _context.Teams.Add(ToEFTeam(team));
-            //TODO is this necessary??
-            team.Id = efteam.ID;
+            var efteam = _context.Teams.Add(
+                new Team
+                {
+                    Name = team
+                }
+            );
         }
 
         public BizModels.Team GetTeam(string name)
         {
             var result = from t in _context.Teams
                          where t.Name == name
-                         select ToBizTeam(t);
+                         select t;
 
             if (result.Count() == 0)
                 return null;
 
-            return result.ElementAt(0);
+            return ToBizTeam(result.First());
         }
 
-        protected virtual EFData.Team ToEFTeam(BizModels.Team team)
+        internal static EFData.Team ToEFTeam(BizModels.Team team)
         {
             if (team == null)
                 throw new ArgumentNullException("team");
@@ -51,7 +54,7 @@ namespace TaskList.EFRepository
             };
         }
 
-        protected virtual BizModels.Team ToBizTeam(Team team)
+        internal static BizModels.Team ToBizTeam(Team team)
         {
             if (team == null)
                 throw new ArgumentNullException("team");
@@ -65,33 +68,47 @@ namespace TaskList.EFRepository
         #endregion Team
 
         #region User
-        public void AddUser(BizModels.User user)
+        public void AddUser(string username, string teamname)
         {
-            _context.Users.Add(ToEFUser(user));
+            var team = GetTeam(teamname);
+            if (team == null)
+                throw new InvalidOperationException("Team name given for user does not exist");
+
+            _context.Users.Add(new User 
+            {
+                Name = username,
+                TeamID = team.Id
+            });
         }
 
         public BizModels.User GetUser(string team, string name)
         {
-            var teamObj = this.GetTeam(team);
+            var teamobj = this.GetTeam(team);
+            if (teamobj == null)
+                return null;
+
             var result = from u in _context.Users
-                         where u.TeamID == teamObj.Id && u.Name == name
-                         select ToBizUser(u);
+                         where u.TeamID == teamobj.Id && u.Name == name
+                         select u;
 
             if (result.Count() == 0)
                 return null;
 
-            return result.ElementAt(0);
+            return ToBizUser(result.First());
                          
         }
 
-        public List<BizModels.User> GetUserByTeam(string team)
+        public List<BizModels.User> GetUsersByTeam(string team)
         {
             var teamobj = this.GetTeam(team);
+            if (teamobj == null)
+                return null;
+
             var result = from u in _context.Users
                          where u.TeamID == teamobj.Id
-                         select ToBizUser(u);
+                         select u;
 
-            return result.ToList();
+            return result.ToList().Select(u => ToBizUser(u)).ToList();
         }
 
         /// <summary>
@@ -99,7 +116,7 @@ namespace TaskList.EFRepository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        protected virtual EFData.User ToEFUser(BizModels.User user)
+        internal static EFData.User ToEFUser(BizModels.User user)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
@@ -117,7 +134,7 @@ namespace TaskList.EFRepository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        protected virtual BizModels.User ToBizUser(EFData.User user)
+        internal static BizModels.User ToBizUser(EFData.User user)
         {
             if (user == null)
                 throw new ArgumentNullException("user");

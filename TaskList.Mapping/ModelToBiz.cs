@@ -17,13 +17,15 @@ namespace TaskList.Mapping
         /// <param name="team"></param>
         /// <param name="owner"></param>
         /// <returns></returns>
-        public static TaskItem ToBiz(this Task task, Team team, User owner)
+        public static TaskItem ToBiz(this Task task)
         {
             TaskItem retval = new TaskItem()
             {
                 TeamName = task.TeamName,
                 Id = task.Id,
-                Owner = owner,
+                Owner = new User {
+                    Name = task.Owner
+                },
                 Description = task.Description,
                 DueDate = task.DueDate
             };

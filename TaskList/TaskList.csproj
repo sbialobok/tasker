@@ -250,6 +250,10 @@
       <Project>{8cd7e3cd-0a78-4c88-ab07-50045a1269cc}</Project>
       <Name>TaskList.EFData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TaskList.EFRepository\TaskList.EFRepository.csproj">
+      <Project>{2de1f9b4-cddb-4272-847a-3d83453a9ad9}</Project>
+      <Name>TaskList.EFRepository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaskList.Mapping\TaskList.Mapping.csproj">
       <Project>{7573e7e4-ab48-4ecd-a144-2178978a64f7}</Project>
       <Name>TaskList.Mapping</Name>
@@ -261,6 +265,10 @@
     <ProjectReference Include="..\TaskList.ServiceContracts\TaskList.ServiceContracts.csproj">
       <Project>{6614500e-1a17-4e6d-b6a2-4653c311b433}</Project>
       <Name>TaskList.ServiceContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskList.Services\TaskList.Services.csproj">
+      <Project>{9016d5c7-cf9d-4884-aeda-0f6d4150be13}</Project>
+      <Name>TaskList.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

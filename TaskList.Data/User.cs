@@ -15,7 +15,7 @@ namespace TaskList.EFData
             Tasks = new HashSet<Task>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public int TeamID { get; set; }

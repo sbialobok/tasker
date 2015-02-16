@@ -9,11 +9,11 @@ namespace TaskList.RepositoryContracts
 {
     public interface IAccountRepository
     {
-        void AddTeam(Team team);
+        void AddTeam(string team);
         Team GetTeam(string name);
         
-        void AddUser(User user);
+        void AddUser(string username, string teamname);
         User GetUser(string team, string name);
-        List<User> GetUserByTeam(string team);
+        List<User> GetUsersByTeam(string team);
     }
 }

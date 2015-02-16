@@ -3,15 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using TaskList.BizModels;
+using TaskList.RepositoryContracts;
 using TaskList.ServiceContracts;
 
 namespace TaskList.Services
 {
     public class AccountService : IAccountService
     {
-        public void LoginUser(string team, string username)
+        private IWorkFactory _workFactory;
+        public AccountService(IWorkFactory workfactory)
         {
-            throw new NotImplementedException();
+            _workFactory = workfactory;
+        }
+
+        public void LoginUser(string teamname, string username)
+        {
+            //Need two units of work so that if the team doesn't exist is can be created.
+            using (IUnitOfWork work = _workFactory.GetWorkUnit())
+            {
+                //First check to see if the team exists
+                var team = work.AccountRepository.GetTeam(teamname);
+                if (team == null)
+                {
+                    work.AccountRepository.AddTeam(teamname);
+                    work.Save();
+                }
+
+                //Then check to see if the user exists
+                var user = work.AccountRepository.GetUser(teamname, username);
+                if (user == null)
+                {
+                    work.AccountRepository.AddUser(username, teamname);
+                    work.Save();
+                }
+            }
         }
 
         public BizModels.User GetUser(string team, string username)

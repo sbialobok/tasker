@@ -8,7 +8,7 @@ namespace TaskList.EFData
 
     public partial class SharedTask
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public int TaskID { get; set; }

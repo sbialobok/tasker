@@ -53,9 +53,9 @@ namespace TaskList.EFRepository
         {
             var result = from t in _context.Tasks
                          where userids.Contains(t.UserID)
-                         select ToTaskItem(t);
+                         select t;
 
-            return result.ToList();
+            return result.ToList().Select( t => ToTaskItem(t)).ToList();
         }
         
         /// <summary>
@@ -82,16 +82,17 @@ namespace TaskList.EFRepository
         /// </summary>
         /// <param name="task">The ef object</param>
         /// <returns>A new taskitem object created from the ef object</returns>
-        protected virtual TaskItem ToTaskItem(TaskList.EFData.Task task)
+        protected virtual TaskItem ToTaskItem(EFData.Task task)
         {
             if (task == null)
                 throw new ArgumentNullException("task");
+
+            var owner = AccountRepository.ToBizUser(task.User);
             var taskItem = new TaskItem()
             {
                 Id = task.ID,
-                Owner = new TaskList.BizModels.User() {
-                    Id = task.UserID
-                },
+                Owner = owner,
+                TeamName = task.User.Team.Name,
                 Description = task.Text,
                 DueDate = task.Date
             };

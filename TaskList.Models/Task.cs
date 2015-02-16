@@ -15,7 +15,7 @@ namespace TaskList.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// ID of the user who created the task
+        /// Name of the user who created the task
         /// </summary>
         [DataMember]
         public string Owner { get; set; }

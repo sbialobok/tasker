@@ -19,6 +19,8 @@ namespace TaskList.EFRepository.Tests
         private TaskRepository _repository;
         private TaskItem _task;
         private IQueryable<Task> _mocktasks;
+        private List<EFData.User> _mockusers;
+        private List<EFData.Team> _mockteams;
 
         [TestInitialize]
         public void Setup()
@@ -39,14 +41,25 @@ namespace TaskList.EFRepository.Tests
                 DueDate = new DateTime(2000, 1, 1)
             };
 
+            _mockteams = new List<EFData.Team>{
+                new EFData.Team { ID=1, Name="Team1"},
+                new EFData.Team { ID=2, Name="Team2"}
+            };
+
+            _mockusers = new List<EFData.User>{
+                new EFData.User { ID=1, Name="User1", Team = _mockteams.ElementAt(0)},
+                new EFData.User { ID=2, Name="User2", Team = _mockteams.ElementAt(0)},
+                new EFData.User { ID=3, Name="User3", Team = _mockteams.ElementAt(1)},
+            };
+
             //For use when testing query statements
             _mocktasks = new List<Task>
             {
-                new Task { ID = 1, UserID = 1, Text = "text" },
-                new Task { ID = 2, UserID = 2 },
-                new Task { ID = 3, UserID = 3 },
-                new Task { ID = 4, UserID = 4 },
-                new Task { ID = 5, UserID = 5 },
+                new Task { ID = 1, UserID = 1, Text = "text", User = _mockusers.ElementAt(0)},
+                new Task { ID = 2, UserID = 1, User = _mockusers.ElementAt(0) },
+                new Task { ID = 3, UserID = 2, User = _mockusers.ElementAt(1) },
+                new Task { ID = 4, UserID = 3, User = _mockusers.ElementAt(2) },
+                new Task { ID = 5, UserID = 3, User = _mockusers.ElementAt(2) },
             }.AsQueryable();
         }
 
@@ -89,7 +102,13 @@ namespace TaskList.EFRepository.Tests
         [TestMethod, TestCategory("TaskRepository")]
         public void EFTaskRepository_GetTask_WillCallFindDBOnSet()
         {
-            _dbtasks.Find(0).Returns(x => new Task());
+            _dbtasks.Find(0).Returns(x => new Task
+            {
+                User = new EFData.User
+                {
+                    Team = new EFData.Team()
+                }
+            });
             _repository.GetTask(0);
             _dbtasks.Received().Find(Arg.Is(0));
         }
@@ -100,13 +119,19 @@ namespace TaskList.EFRepository.Tests
             var id = 0;
             var userid = 1;
             var text = "text";
+            var teamName = "teamname";
             var date = new DateTime(2000,1,1);
 
             _dbtasks.Find(0).Returns(x => 
                 new Task()
                 {
                     ID = id,
-                    UserID = userid,
+                    User = new EFData.User {
+                        ID = userid,
+                        Team = new EFData.Team {
+                            Name = teamName
+                        }
+                    },
                     Text = text,
                     Date = date
                 }
@@ -116,6 +141,7 @@ namespace TaskList.EFRepository.Tests
             Assert.AreEqual(userid, result.Owner.Id);
             Assert.AreEqual(text, result.Description);
             Assert.AreEqual(date, result.DueDate);
+            Assert.AreEqual(teamName, result.TeamName);
         }
 
         [TestMethod, TestCategory("TaskRepository"), ExpectedException(typeof(ArgumentNullException))]
@@ -133,7 +159,7 @@ namespace TaskList.EFRepository.Tests
         {
             SetupQuery();
             var result = _repository.GetTasksByUserID(new int[] { 1, 2, 3 });
-            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual(5, result.Count);
         }
 
         [TestMethod, TestCategory("TaskRepository")]
@@ -141,8 +167,8 @@ namespace TaskList.EFRepository.Tests
         {
             SetupQuery();
             var result = _repository.GetTasksByUserID(new int[] { 1 });
-            Assert.AreEqual(1, result[0].Id);
-            Assert.AreEqual("text", result[0].Description);
+            Assert.AreEqual(2, result.Count);
+            Assert.IsTrue(result.All(t => t.Owner.Id == 1));
         }
         #endregion GetTaskByUserID
     }

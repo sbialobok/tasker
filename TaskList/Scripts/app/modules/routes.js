@@ -36,6 +36,7 @@ module.exports = function () {
 		var cookie = utils.get_cookie(cookiekey);
 		if(!cookie) {
 			hasher.setHash('login');
+			return;
 		}
 		var names = cookie.split('|');
 

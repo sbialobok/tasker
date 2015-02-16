@@ -24,7 +24,7 @@ module.exports = {
     module: {
          loaders: [
             { test: /\.css/, exclude: /\.usable\.css$/, loader: "style-loader!css-loader" },
-            { test: /\.js$/, loader: "jsx-loader" }   
+            { test: /\.js$/, loader: "jsx-loader" },   
             { test: /\.less$/, exclude: /\.useable\.less$/, loader: "style-loader!css-loader!less-loader" }
         ],
         noParse: /\.min\.js/

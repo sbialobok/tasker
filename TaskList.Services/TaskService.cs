@@ -18,10 +18,16 @@ namespace TaskList.Services
             _workFactory = workfactory;
         }
 
+        /// <summary>
+        /// Adds a task 
+        /// </summary>
+        /// <param name="task"></param>
         public void AddTask(TaskItem task)
         {
             using (IUnitOfWork work = _workFactory.GetWorkUnit())
             {
+                var user = work.AccountRepository.GetUser(task.TeamName, task.Owner.Name);
+                task.Owner = user;
                 work.TaskRepository.Add(task);
                 work.Save();
             }
@@ -37,14 +43,21 @@ namespace TaskList.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets list of tasks based on a team name
+        /// </summary>
+        /// <param name="teamName"></param>
+        /// <returns></returns>
         public List<TaskItem> GetTeamTasks(string teamName)
         {
+            List<TaskItem> result = null;
             using (IUnitOfWork work = _workFactory.GetWorkUnit())
             {
-                //work.TaskRepository.Add(task);
-                work.Save();
+                var users = work.AccountRepository.GetUsersByTeam(teamName);
+                result = work.TaskRepository.GetTasksByUserID(users.Select(u => u.Id).ToArray());
             }
-            throw new NotImplementedException();
+
+            return result;
         }
     }
 }
