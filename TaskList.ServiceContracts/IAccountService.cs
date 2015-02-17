@@ -24,6 +24,8 @@ namespace TaskList.ServiceContracts
         /// <returns></returns>
         User GetUser(string team, string username);
 
+        List<User> GetUsers(string team);
+
         /// <summary>
         /// 
         /// </summary>

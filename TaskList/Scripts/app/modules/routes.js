@@ -4,6 +4,7 @@ var crossroads = require('crossroads'),
 	utils = require('./utils'),
 	page = require('../ui/page'),
 	taskmanager = require('./taskmanager'),
+	accountservice = require('../services/accountservice'),
 	signalr = require('./signalconnection');
 
 //Handles the routing between the login page and the task page.
@@ -25,6 +26,12 @@ module.exports = function () {
 		hasher.setHash('tasks');
 	};
 
+	//Forces current route to re-run.
+	function refresh() {
+		crossroads.resetState();
+		crossroads.parse(hasher.getHash());
+	};
+
 	function init() {
 		routes.push(crossroads.addRoute('login', function() {
 			//Use the presence of a cookie to determine if the user is logged in or not.
@@ -43,14 +50,17 @@ module.exports = function () {
 			var names = cookie.split('|');
 
 			//start listening on the websocket
-			signalr(cookie, taskmanager.SignalHandler);
+			//signalr(cookie, taskmanager.SignalHandler);
 
 			//pull in tasks
-			var promise = taskmanager.LoadTeamTasks(names[0]); 
+			var tasksp = taskmanager.LoadTeamTasks(names[0]); 
+			var usersp = accountservice.GetUsers(names[0]);
 			
 			//Once tasks are done, push data to ui
-			promise.done(function(tasks){
-				page.renderTasks(names[0], names[1], tasks);
+			$.when(tasksp, usersp).done(function(tasks,users){
+				page.renderTasks(names[0], names[1], tasks, users[0], refresh, function () {
+					hasher.setHash('logout');
+				});
 			});
 		}));
 

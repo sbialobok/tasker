@@ -24,7 +24,11 @@ var userTaskList = React.createClass({
 		});
 	},
 	onTaskSave: function (event, task) {
-		//TODO Still need to setup updating
+		
+		if(this.props.onUpdateTask) {
+			this.props.onUpdateTask(task);
+		}
+		
 		this.setState({
 			editingTask: -1
 		});
@@ -43,6 +47,7 @@ var userTaskList = React.createClass({
 				var mode = this.state.editingTask === task.Id ? 'edit' : 'review';
 				return(
 					<taskentry
+						key = {task.Id}
 						description = {task.Description}
 						duedate = {task.DueDate}
 						id = {task.Id}

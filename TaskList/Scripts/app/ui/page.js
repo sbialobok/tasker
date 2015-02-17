@@ -14,9 +14,15 @@ var page = function () {
 		);
 	};
 
-	function renderTasks(teamname, username, tasks) {
+	function renderTasks(teamname, username, tasks, users, onUpdate, onLogout) {
 		React.renderComponent(
-			<mainui teamname={teamname} username={username} tasks={tasks}/>,
+			<mainui 
+				teamname={teamname} 
+				username={username} 
+				tasks={tasks} 
+				users={users}
+				onUpdate={onUpdate}
+				onLogout={onLogout}/>,
 			document.getElementById(mountNode)
 		);
 	};

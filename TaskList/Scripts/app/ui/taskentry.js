@@ -6,9 +6,9 @@ var React = require('react');
 var task = React.createClass({
 	//the values of the text input fields after being parsed
 	editedTask: {
-		description: [],
+		description: undefined,
 		shares: [],
-		duedate: []
+		duedate: undefined
 	},
 	getInitialState: function () {
 		return {
@@ -28,20 +28,28 @@ var task = React.createClass({
 	parseTask: function (event) {
 		var text = event.target.value,
 			date = undefined;
-			parseddate = undefined;
+			parseddate = undefined,
+			desc = undefined;
 
 		//This implies that the TODO needs to come first with the description.  I think thats what the spec stated.
-		this.editedTask.description = text.match(/TODO:[\s\S][^@^]*/g);
+		desc = text.match(/TODO:[\s\S][^@^]*/g);
 		this.editedTask.shares = text.match(/@[\w]*/g);
-		this.editedTask.duedate = text.match(/\^[\d\/]*/g);
+		date = text.match(/\^[\d\/]*/g);
 
-		if(this.editedTask.duedate && this.editedTask.duedate.length) {
-			date = this.editedTask.duedate[0].replace('^','');
+		if(date && date.length) {
+			date = date[0].replace('^','');
 			parseddate = Date.parse(date);
 		}
-		if(this.editedTask.description && this.editedTask.description.length && date && !isNaN(parseddate)) {
 
-			this.editedTask.duedate[0] = date;
+		if(desc && desc.length) {
+			desc = desc[0].replace('TODO:','')
+		}
+		
+		if(desc && date && !isNaN(parseddate)) {
+
+			this.editedTask.duedate = date;
+			this.editedTask.description = desc;
+
 			//TODO: Check valid user and check valid date
 			this.setState({
 				validTask: true
@@ -71,9 +79,13 @@ var task = React.createClass({
 	renderEdit: function () {
 		//Render an input and button for edit mode.
 		//TODO: Add handler for keyboard enter press
+		var val = this.props.description;
+		if(val !== "Enter task description") {
+			val = 'TODO:' + val + '^' + this.props.duedate;
+		}
 		return (
 			<div className='taskedit'>
-				<input type="text" className="taskentry" onChange={this.parseTask}/>
+				<input id="description" type="text" className="taskentry" onChange={this.parseTask} defaultValue={val}/>
 				<button className="submit" onClick={this.handleTaskSave}>{this.props.mode === 'new' ? 'Add' : 'Save'}</button>
 			</div>
 		);
@@ -81,8 +93,7 @@ var task = React.createClass({
 	renderReview: function () {
 		//Review mode which also handles clicks to go into edit mode
 		return (
-			<div className='taskreview' onClick={this.handleTaskClick}>
-				<label className='taskowner'>{this.props.owner}</label>
+			<div className='taskreview' onDoubleClick={this.handleTaskClick}>
 				<label className='taskdescription'>{this.props.description}</label>
 				<label className='taskduedate'>{this.props.duedate}</label>
 			</div>

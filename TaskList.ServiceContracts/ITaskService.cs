@@ -8,7 +8,8 @@ namespace TaskList.ServiceContracts
     {
         void AddTask(TaskItem task);
         void DeleteTask(int id, string team);
-        void UpdateTask(TaskItem task, string team);
+        void UpdateTask(TaskItem task);
+        TaskItem GetTask(int id);
         List<TaskItem> GetTeamTasks(string teamName);
     }
 }

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 
 using TaskList.ServiceContracts;
+using TaskList.Mapping;
+using TaskList.Models;
 
 namespace TaskList.Controllers
 {
@@ -28,6 +30,16 @@ namespace TaskList.Controllers
         public void Login(string team, string user)
         {
             _accountService.LoginUser(team, user);
+        }
+
+        public JsonResult GetUsers(string team)
+        {
+            var users = _accountService.GetUsers(team);
+            if (users == null)
+            {
+                return Json(new List<User>(), JsonRequestBehavior.AllowGet);
+            }
+            return Json(users.Select(u => u.ToModel()).ToList(), JsonRequestBehavior.AllowGet);
         }
 
     }

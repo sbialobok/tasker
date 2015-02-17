@@ -4,6 +4,11 @@
 var React = require('react');
 
 var header = React.createClass({
+	onLogoutClick: function (event, ui) {
+		if(this.props.onLogout) {
+			this.props.onLogout();
+		}
+	},
 	render: function () {
 		//Thinking of doing a table + list of users to meet the requirement.  Might look messy
 		return(
@@ -19,7 +24,7 @@ var header = React.createClass({
 						</tr>
 					</thead>
 				</table>
-				<button className='logout'>Logout</button>
+				<button className='logout' onClick={this.onLogoutClick}>Logout</button>
 			</div>
 		);
 	}

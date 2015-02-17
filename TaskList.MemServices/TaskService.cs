@@ -36,9 +36,9 @@ namespace TaskList.MemServices
             teamtasks[task.Id] = task;
         }
 
-        public void UpdateTask(TaskItem task, string team)
+        public void UpdateTask(TaskItem task)
         {
-            //???
+            throw new NotImplementedException();
         }
 
         public void DeleteTask(int id, string team)
@@ -60,6 +60,12 @@ namespace TaskList.MemServices
                 _tasks[teamName] = teamTasks;
             }
             return teamTasks.Values.ToList();
+        }
+
+
+        public TaskItem GetTask(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

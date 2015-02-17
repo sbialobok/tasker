@@ -78,6 +78,12 @@ namespace TaskList.MemServices
             _teams.TryGetValue(team, out retval);
             return retval;
         }
+
+
+        public List<User> GetUsers(string team)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

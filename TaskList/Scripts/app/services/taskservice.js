@@ -11,8 +11,21 @@ module.exports = {
 			data: {
 				teamName: teamname,
 			},
-			error: function (error) {
+			error: function (xhr, message, error) {
 				console.warn('Error getting team tasks. ' + error);
+			}
+		});
+	},
+	GetTask: function (taskid) {
+
+		return $.ajax({
+			url: '/task/gettask',
+			type: 'GET',
+			data: {
+				taskId: taskid
+			},
+			error: function (xhr, message, error) {
+				console.warn('Error getting task. ' + message);
 			}
 		});
 	},
@@ -32,11 +45,32 @@ module.exports = {
 		return $.ajax({
 			url: '/task/addtask',
 			type: 'POST',
-			dataType: 'json',
 			data: json,
 			contentType: "application/json; charset=utf-8",
-			error: function (error) {
-				console.warn('Error getting team tasks. ' + error);
+			error: function (xhr, message, error) {
+				console.warn('Error adding task. ' + message);
+			}
+		});
+	},
+	UpdateTask: function (taskid, description, duedate) {
+
+		var data = {
+			Id: taskid,
+			Description: description,
+			DueDate: duedate,
+			Shared:[],
+			Owner:'',
+			TeamName:''
+		};
+
+		var json = JSON.stringify(data);
+		return $.ajax({
+			url: '/task/updatetask',
+			type: 'POST',
+			data: json,
+			contentType: "application/json; charset=utf-8",
+			error: function (xhr, message, error) {
+				console.warn('Error updating task. ' + message);
 			}
 		});
 	}

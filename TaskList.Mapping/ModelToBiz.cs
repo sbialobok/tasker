@@ -23,7 +23,7 @@ namespace TaskList.Mapping
             {
                 TeamName = task.TeamName,
                 Id = task.Id,
-                Owner = new User {
+                Owner = new BizModels.User {
                     Name = task.Owner
                 },
                 Description = task.Description,
@@ -49,6 +49,18 @@ namespace TaskList.Mapping
                 Owner = task.Owner.Name,
                 Description = task.Description,
                 DueDate = task.DueDate
+            };
+
+            return retval;
+        }
+
+        public static Models.User ToModel(this BizModels.User user)
+        {
+            Models.User retval = new Models.User
+            {
+                ID = user.Id,
+                Name = user.Name,
+                TeamName = user.Team.Name
             };
 
             return retval;

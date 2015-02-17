@@ -30,9 +30,20 @@ namespace TaskList.Controllers
             return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetTask(int taskId)
+        {
+            var task = _taskService.GetTask(taskId);
+            return Json(task, JsonRequestBehavior.AllowGet);
+        }
+
         public void AddTask(Task task)
         {
             _taskService.AddTask(task.ToBiz());
+        }
+
+        public void UpdateTask(Task task)
+        {
+            _taskService.UpdateTask(task.ToBiz());
         }
     }
 }

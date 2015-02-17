@@ -38,9 +38,28 @@ namespace TaskList.Services
             throw new NotImplementedException();
         }
 
-        public void UpdateTask(TaskItem task, string team)
+        public TaskItem GetTask(int id)
         {
-            throw new NotImplementedException();
+            TaskItem retval;
+            using (IUnitOfWork work = _workFactory.GetWorkUnit())
+            {
+                retval = work.TaskRepository.GetTask(id);
+            }
+
+            return retval;
+        }
+
+        /// <summary>
+        /// Update the task
+        /// </summary>
+        /// <param name="task"></param>
+        public void UpdateTask(TaskItem task)
+        {
+            using (IUnitOfWork work = _workFactory.GetWorkUnit())
+            {
+                work.TaskRepository.Update(task);
+                work.Save();
+            }
         }
 
         /// <summary>

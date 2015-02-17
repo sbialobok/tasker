@@ -40,6 +40,16 @@ namespace TaskList.Services
             }
         }
 
+        public List<BizModels.User> GetUsers(string team)
+        {
+            List<BizModels.User> users;
+            using (IUnitOfWork work = _workFactory.GetWorkUnit())
+            {
+                users = work.AccountRepository.GetUsersByTeam(team);
+            }
+
+            return users;
+        }
         public BizModels.User GetUser(string team, string username)
         {
             throw new NotImplementedException();

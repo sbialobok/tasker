@@ -171,5 +171,23 @@ namespace TaskList.EFRepository.Tests
             Assert.IsTrue(result.All(t => t.Owner.Id == 1));
         }
         #endregion GetTaskByUserID
+
+        #region Update
+        //TODO: Not sure how to mock the attach stuff yet
+        [TestMethod, TestCategory("TaskRepository")]
+        public void EFTaskRepository_Update_WillDoStuff()
+        {
+            //_context.Entry(null).ReturnsForAnyArgs()
+            //var task = _mocktasks.ElementAt(0);
+            //_repository.Update(new TaskItem
+            //{
+            //    Id = task.ID,
+            //    Owner = new BizModels.User{
+            //        Id = task.UserID
+            //    },
+            //    Description = "newdescription"
+            //});
+        }
+        #endregion Update
     }
 }

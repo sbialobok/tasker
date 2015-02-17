@@ -11,6 +11,7 @@ namespace TaskList.RepositoryContracts
     public interface ITaskRepository
     {
         void Add(TaskItem task);
+        void Update(TaskItem task);
         TaskItem GetTask(int id);
         List<TaskItem> GetTasksByUserID(int[] userids);
     }

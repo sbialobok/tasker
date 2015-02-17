@@ -34,6 +34,19 @@ namespace TaskList.EFRepository
         }
 
         /// <summary>
+        /// Update an item
+        /// </summary>
+        /// <param name="task"></param>
+        public void Update(TaskItem task)
+        {
+            var updated = ToEFTask(task);
+            _context.Tasks.Attach(updated);
+            var entry = _context.Entry(updated);
+            entry.Property(e => e.Text).IsModified = true;
+            entry.Property(e => e.Date).IsModified = true;
+        }
+
+        /// <summary>
         /// Returns a task based on its ID
         /// </summary>
         /// <param name="id">ID of the task to retrieve</param>

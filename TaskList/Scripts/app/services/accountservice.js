@@ -14,5 +14,17 @@ module.exports = {
 				console.warn('Error logging in. ' + error);
 			}
 		});
+	},
+	GetUsers: function (teamname) {
+
+		return $.ajax({
+			url: '/home/getusers',
+			data: {
+				team: teamname
+			},
+			error: function (error) {
+				console.warn('Error logging in. ' + error);
+			}
+		});
 	}
 };
